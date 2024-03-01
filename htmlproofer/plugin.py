@@ -146,7 +146,10 @@ class HtmlProoferPlugin(BasePlugin):
     @lru_cache(maxsize=1000)
     def resolve_web_scheme(self, url: str) -> int:
         try:
-            response = self._session.get(url, timeout=URL_TIMEOUT)
+            print(f"starting request for {url}")
+            headers = {"Range": "bytes=0-1"}
+            response = self._session.get(url, timeout=URL_TIMEOUT, headers=headers)
+            print(f"ending request for {url}")
             return response.status_code
         except requests.exceptions.Timeout:
             return 504
